@@ -14,6 +14,7 @@ class _ReceiptState extends State<Receipt> {
     "assets/images/freshinabox.png",
     "assets/images/horn.png",
     "assets/images/paymy.png",
+    "assets/images/joeys.png",
   ];
 
   final List _fourteen = [
@@ -62,6 +63,13 @@ class _ReceiptState extends State<Receipt> {
   ];
 
   int _selected = 0;
+  List _filtered = [];
+
+  @override
+  void initState() {
+    _filtered = [..._fourteen].toList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -224,6 +232,7 @@ class _ReceiptState extends State<Receipt> {
                             onTap: () {
                               setState(() {
                                 _selected = 0;
+                                _filtered = [..._fourteen].toList();
                               });
                             },
                             child: Container(
@@ -250,6 +259,9 @@ class _ReceiptState extends State<Receipt> {
                             onTap: () {
                               setState(() {
                                 _selected = 1;
+                                _filtered = _fourteen
+                                    .where((element) => element["amount"] > 0)
+                                    .toList();
                               });
                             },
                             child: Container(
@@ -276,6 +288,9 @@ class _ReceiptState extends State<Receipt> {
                             onTap: () {
                               setState(() {
                                 _selected = 2;
+                                _filtered = _fourteen
+                                    .where((element) => element["amount"] < 0)
+                                    .toList();
                               });
                             },
                             child: Container(
@@ -333,7 +348,7 @@ class _ReceiptState extends State<Receipt> {
                           ),
                           child: ListView.builder(
                             scrollDirection: Axis.vertical,
-                            itemCount: _fourteen.length,
+                            itemCount: _filtered.length,
                             itemBuilder: (context, index) {
                               return ListTile(
                                 contentPadding:
@@ -341,30 +356,30 @@ class _ReceiptState extends State<Receipt> {
                                 leading: ClipOval(
                                   child: Image(
                                     image: AssetImage(
-                                      _fourteen[index]["image"],
+                                      _filtered[index]["image"],
                                     ),
                                     height: 40,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                                 title: Text(
-                                  _fourteen[index]["type"],
+                                  _filtered[index]["type"],
                                   style: TextStyle(
                                     color: deepGreen,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 subtitle: Text(
-                                  _fourteen[index]["detail"],
+                                  _filtered[index]["detail"],
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                trailing: _fourteen[index]["type"] == "Received"
+                                trailing: _filtered[index]["type"] == "Received"
                                     ? Text(
-                                        "+${_fourteen[index]["amount"]}",
+                                        "+${_filtered[index]["amount"]}",
                                         style: TextStyle(
-                                          color: _fourteen[index]["amount"] < 0
+                                          color: _filtered[index]["amount"] < 0
                                               ? Colors.red
                                               : deepGreen,
                                           fontWeight: FontWeight.bold,
@@ -372,9 +387,9 @@ class _ReceiptState extends State<Receipt> {
                                         ),
                                       )
                                     : Text(
-                                        _fourteen[index]["amount"].toString(),
+                                        _filtered[index]["amount"].toString(),
                                         style: TextStyle(
-                                          color: _fourteen[index]["amount"] < 0
+                                          color: _filtered[index]["amount"] < 0
                                               ? Colors.red
                                               : deepGreen,
                                           fontWeight: FontWeight.bold,
