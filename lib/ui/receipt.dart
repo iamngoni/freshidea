@@ -64,10 +64,32 @@ class _ReceiptState extends State<Receipt> {
 
   int _selected = 0;
   List _filtered = [];
-
+  bool _isExpanded = false;
+  final _controller = new TextEditingController();
   @override
   void initState() {
     _filtered = [..._fourteen].toList();
+    _controller.addListener(() {
+      setState(() {
+        _filtered = _fourteen
+            .where((element) =>
+                element["detail"]
+                    .toString()
+                    .toLowerCase()
+                    .contains(_controller.text.toLowerCase()) ||
+                element["type"]
+                    .toString()
+                    .toLowerCase()
+                    .contains(_controller.text.toLowerCase()) ||
+                element["amount"]
+                    .toString()
+                    .toLowerCase()
+                    .contains(_controller.text.toLowerCase()))
+            .toList();
+      });
+      print(_controller.text);
+      print(_filtered);
+    });
     super.initState();
   }
 
@@ -211,13 +233,17 @@ class _ReceiptState extends State<Receipt> {
                 bottom: 0,
                 child: Container(
                   width: getWidth(context),
-                  height: getHeight(context) * 0.63,
+                  height: _isExpanded
+                      ? getHeight(context)
+                      : getHeight(context) * 0.63,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(35),
-                      topRight: Radius.circular(35),
-                    ),
+                    borderRadius: _isExpanded
+                        ? BorderRadius.zero
+                        : BorderRadius.only(
+                            topLeft: Radius.circular(35),
+                            topRight: Radius.circular(35),
+                          ),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,15 +339,41 @@ class _ReceiptState extends State<Receipt> {
                               ),
                             ),
                           ),
-                          CircleAvatar(
-                            backgroundColor: shadowGrey,
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.grey,
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _isExpanded = !_isExpanded;
+                                _controller.text = "";
+                              });
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: shadowGrey,
+                              child: Icon(
+                                _isExpanded ? Icons.close : Icons.search,
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
                         ],
                       ),
+                      _isExpanded
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16.0,
+                                horizontal: 16.0,
+                              ),
+                              child: TextFormField(
+                                controller: _controller,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: shadowGrey,
+                                  border: InputBorder.none,
+                                  prefixIcon: Icon(Icons.search),
+                                  labelText: "Filter",
+                                ),
+                              ),
+                            )
+                          : SizedBox(height: 0),
                       Padding(
                         padding: const EdgeInsets.only(
                           left: 20.0,
@@ -344,7 +396,9 @@ class _ReceiptState extends State<Receipt> {
                         child: Container(
                           width: getWidth(context),
                           constraints: BoxConstraints(
-                            maxHeight: getHeight(context) / 2.367,
+                            maxHeight: _isExpanded
+                                ? getHeight(context) / 1.4
+                                : getHeight(context) / 2.367,
                           ),
                           child: ListView.builder(
                             scrollDirection: Axis.vertical,
