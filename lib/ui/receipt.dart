@@ -220,54 +220,81 @@ class _ReceiptState extends State<Receipt> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 7.0,
-                              horizontal: 20.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: deepGreen,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Text(
-                              "History",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selected = 0;
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 7.0,
+                                horizontal: 20.0,
+                              ),
+                              decoration: BoxDecoration(
+                                color:
+                                    _selected == 0 ? deepGreen : Colors.white,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Text(
+                                "History",
+                                style: TextStyle(
+                                  color:
+                                      _selected == 0 ? Colors.white : deepGreen,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 7.0,
-                              horizontal: 20.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Text(
-                              "Income",
-                              style: TextStyle(
-                                color: deepGreen,
-                                fontWeight: FontWeight.bold,
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selected = 1;
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 7.0,
+                                horizontal: 20.0,
+                              ),
+                              decoration: BoxDecoration(
+                                color:
+                                    _selected == 1 ? deepGreen : Colors.white,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Text(
+                                "Income",
+                                style: TextStyle(
+                                  color:
+                                      _selected == 1 ? Colors.white : deepGreen,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 7.0,
-                              horizontal: 20.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Text(
-                              "Payments",
-                              style: TextStyle(
-                                color: deepGreen,
-                                fontWeight: FontWeight.bold,
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selected = 2;
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 7.0,
+                                horizontal: 20.0,
+                              ),
+                              decoration: BoxDecoration(
+                                color:
+                                    _selected == 2 ? deepGreen : Colors.white,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Text(
+                                "Payments",
+                                style: TextStyle(
+                                  color:
+                                      _selected == 2 ? Colors.white : deepGreen,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
