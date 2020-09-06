@@ -229,7 +229,11 @@ class _ReceiptState extends State<Receipt> {
                   ],
                 ),
               ),
-              Positioned(
+              AnimatedPositioned(
+                height: _isExpanded
+                    ? getHeight(context)
+                    : getHeight(context) * 0.63,
+                duration: Duration(milliseconds: 500),
                 bottom: 0,
                 child: Container(
                   width: getWidth(context),
@@ -397,7 +401,7 @@ class _ReceiptState extends State<Receipt> {
                           width: getWidth(context),
                           constraints: BoxConstraints(
                             maxHeight: _isExpanded
-                                ? getHeight(context) / 1.4
+                                ? getHeight(context) / 1.9
                                 : getHeight(context) / 2.367,
                           ),
                           child: ListView.builder(
